@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Late;
 use Illuminate\Http\Request;
+use PDF;
 
 class LateController extends Controller
 {
@@ -67,5 +68,24 @@ class LateController extends Controller
         $late->delete();
 
         return redirect()->route('lates.index')->with('success', 'Late deleted successfully');
+    }
+
+    public function viewPDF()
+    {
+        $users = User::all();
+
+        $pdf = PDF::loadView('lates.export', array('users' =>  $users))
+        ->setPaper('a4', 'portrait');
+
+        return $pdf->stream();
+
+    }
+
+    public function downloadPDF(Late $late)
+    {
+        $pdf = PDF::loadView('lates.export', array('late' =>  $late))
+        ->setPaper('a4', 'portrait');
+
+        return $pdf->download('export-pdf.pdf');   
     }
 }

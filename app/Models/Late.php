@@ -12,4 +12,14 @@ class Late extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $guarded = [];
+
+    /**
+     * Get the student that owns the Late
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

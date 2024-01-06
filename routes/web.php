@@ -33,7 +33,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('rayons', RayonController::class);
         Route::resource('students', StudentController::class);
     });
-    Route::middleware(['isPembimbing'])->group(function () {
+    Route::middleware(['isAdmin'])->group(function () {
         Route::resource('lates', LateController::class);
+        Route::get('lates/export/download-pdf/{late}', [LateController::class, 'downloadPDF'])->name('lates.exports.download-pdf');
     });
 });

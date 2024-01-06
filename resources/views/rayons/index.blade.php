@@ -28,17 +28,19 @@
             </div>
             @endif
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Rayon</th>
-                        <th>User</th>
-                        <th width="280px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($rayons as $i => $rayon)
+            
+            
+            @php
+            $heads = [
+                'No',
+                'Rayon',
+                'User',
+                ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            ];
+            @endphp
+            
+            <x-adminlte-datatable id="table1" :heads="$heads" striped hoverable with-buttons>
+                @foreach ($rayons as $i => $rayon)
                     <tr>
                         <td>{{ ++$i }}</td>
                         <td>{{ $rayon->rayon }}</td>
@@ -58,8 +60,7 @@
                         </td>
                     </tr>
                     @endforeach
-                </tbody>
-            </table>
+            </x-adminlte-datatable>
 
         </div>
     </div>
@@ -70,13 +71,3 @@
     <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
-@section('js')
-<script>
-    $(function () {
-$("table").DataTable({
-  "responsive": true, "lengthChange": false, "autoWidth": false,
-  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-}).buttons().container();
-});
-</script>
-@stop

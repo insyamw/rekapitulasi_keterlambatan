@@ -28,42 +28,41 @@
             </div>
             @endif
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>NIS</th>
-                        <th>Name</th>
-                        <th>Rombel</th>
-                        <th>Rayon</th>
-                        <th width="280px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($students as $i => $student)
-                    <tr>
-                        <td>{{ ++$i }}</td>
-                        <td>{{ $student->nis }}</td>
-                        <td>{{ $student->name }}</td>
-                        <td>{{ $student->rombel_id }}</td>
-                        <td>{{ $student->rayon_id }}</td>
-                        <td>
-                            <form action="{{ route('students.destroy',$student->id) }}" method="POST">
+            @php
+            $heads = [
+                'No',
+                'NIS',
+                'Name',
+                'Rombel',
+                'Rayon',
+                ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            ];
+            @endphp
+            
+            <x-adminlte-datatable id="table1" :heads="$heads" striped hoverable with-buttons>
+                @foreach ($students as $i => $student)
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td>{{ $student->nis }}</td>
+                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->rombel_id }}</td>
+                    <td>{{ $student->rayon_id }}</td>
+                    <td>
+                        <form action="{{ route('students.destroy',$student->id) }}" method="POST">
 
-                                <a class="btn btn-info" href="{{ route('students.show',$student->id) }}">Show</a>
+                            <a class="btn btn-info" href="{{ route('students.show',$student->id) }}">Show</a>
 
-                                <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
+                            <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
 
-                                @csrf
-                                @method('DELETE')
+                            @csrf
+                            @method('DELETE')
 
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </x-adminlte-datatable>
 
         </div>
     </div>
@@ -76,11 +75,5 @@
 
 @section('js')
 <script>
-    $(function () {
-$("table").DataTable({
-  "responsive": true, "lengthChange": false, "autoWidth": false,
-  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-}).buttons().container();
-});
 </script>
 @stop

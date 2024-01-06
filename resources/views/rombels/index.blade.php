@@ -29,36 +29,35 @@
             </div>
             @endif
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Rombel</th>
-                        <th width="280px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($rombels as $i => $rombel)
-                    <tr>
-                        <td>{{ ++$i }}</td>
-                        <td>{{ $rombel->rombel }}</td>
-                        <td>
-                            <form action="{{ route('rombels.destroy',$rombel->id) }}" method="POST">
+            @php
+            $heads = [
+                'No',
+                'Rombel',
+                ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            ];
+            @endphp
+            
+            <x-adminlte-datatable id="table1" :heads="$heads" striped hoverable with-buttons>
+                @foreach ($rombels as $i => $rombel)
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td>{{ $rombel->rombel }}</td>
+                    <td>
+                        <form action="{{ route('rombels.destroy',$rombel->id) }}" method="POST">
 
-                                <a class="btn btn-info" href="{{ route('rombels.show',$rombel->id) }}">Show</a>
+                            <a class="btn btn-info" href="{{ route('rombels.show',$rombel->id) }}">Show</a>
 
-                                <a class="btn btn-primary" href="{{ route('rombels.edit',$rombel->id) }}">Edit</a>
+                            <a class="btn btn-primary" href="{{ route('rombels.edit',$rombel->id) }}">Edit</a>
 
-                                @csrf
-                                @method('DELETE')
+                            @csrf
+                            @method('DELETE')
 
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </x-adminlte-datatable>
 
         </div>
     </div>
@@ -67,15 +66,4 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-<script>
-    $(function () {
-$("table").DataTable({
-  "responsive": true, "lengthChange": false, "autoWidth": false,
-  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-}).buttons().container();
-});
-</script>
 @stop
